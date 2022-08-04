@@ -130,7 +130,7 @@ void juego() /*Función juego*/
     system("cls");
 
     Jugador jb, ja;
-    int tabla[FILAS][COLUMNAS];
+    int tabla[FILAS][COLUMNAS]; /*Tabla que contendrá todo*/
     int n_actual, n_nuevo;
     /*Aquí irá en Do While para que se pueda empezar otra partida*/
 
