@@ -1,12 +1,12 @@
-/*
-Proyecto: Juego de Euclides
-Alumnos: Sebastián Landaeta, Gipsy Anaya, Antonietta Palazzo y Valery Medina
-Ingeniería Informática
-Técnicas de programación II
-Sección 1
+
+/*	Proyecto: Juego de Euclides
+	Alumnos: Sebastián Landaeta, Gipsy Anaya, Antonietta Palazzo y Valery Medina
+	Ingenierí­a Informática
+	Técnicas de programación II
+	Sección 1
 */
 
-/*Inclusión de las librerías a utilizar*/
+// == LIBRERIAS ==
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
@@ -14,42 +14,71 @@ Sección 1
 #include <locale>
 #include <windows.h>
 
-/*Declaración de macros*/
+// == CONSTANTES ==
 #define FILAS 8
 #define COLUMNAS 8
 #define NUMEROS FILAS*COLUMNAS
 
-/*Declaración de la estructura "Jugador", la cual contendrá los datos de cada jugador*/
+// == ESTRUCTURAS ==
+
+// Datos de cada jugador
 struct Jugador 
 {
-    char nombre[30]; /*Nombre del jugador*/
-    int puntos; /*Puntos del jugador*/
-    int fallos; /*Fallos del jugador*/
+    char nombre[30];   // Nombre del jugador
+    int puntos;        // Puntos del jugador
+    int fallos;        // Fallos del jugador
 };
 
-/*Prototipos de las funciones definidas en el código*/
-void menu(); /*Esta función se encarga de mostrar el menú del juego, para que los usuarios puedan interactuar con las opciones disponibles*/
-void titulo(); /*Esta función contiene la interfaz del menú*/
-void juego(); /*En esta función se encuentra toda la lógica del juego, y por ende es la más grande de todas*/
-void m_primer_jugador(Jugador jb, Jugador ja, int p_fila_actual, int p_columna_actual); /*Esta función identifica y muestra en pantalla quién será el primer jugador*/
-void meter_numero(int tabla[FILAS][COLUMNAS], int n_actual, int &p_fila_actual, int &p_columna_actual); /*Esta función se encarga de meter los números y las x's en la matriz de forma ordenada*/
-void imprimir(int tabla[FILAS][COLUMNAS]); /*Esta función se encarga de imprimir en pantalla la interfaz de juego*/
-void color(int n); /*Esta función la usamos para pintar las casillas de la tabla*/
+
+// == PROTOTIPOS DE FUNCIONES ==
+
+/* Mostrar el menú del juego, para que los usuarios puedan 
+   interactuar con las opciones disponibles*/
+void menu();
+
+// Interfaz del menú
+void titulo();
+
+// Lógica del juego, y por ende es la más grande de todas
+void juego();
+
+/* Identificar y mostrar en pantalla quién será el primer 
+   jugador*/
+bool m_primer_jugador(Jugador jb, Jugador ja, int p_fila_actual, int p_columna_actual);
+
+//( Meter los números y las x's en la matriz de forma ordenada
+void meter_numero(int tabla[FILAS][COLUMNAS], int n_actual, int &p_fila_actual, int &p_columna_actual);
+
+// Imprimir en pantalla la interfaz de juego
+void imprimir(int tabla[FILAS][COLUMNAS], Jugador jb, Jugador ja);
+
+// Imprimir datos del jugador actual
+void imprimirdatos(bool jugador, Jugador jb, Jugador ja);
+
+// Pintar las casillas de la tabla
+void color(int n);
+
+
 
 using namespace std;
 
-int main() /*Función principal*/
+// == FUNCIONES ==
+
+// Función principal
+int main()
 {
 	setlocale(LC_CTYPE, "Spanish");
     SetConsoleCP(1252);
 	SetConsoleOutputCP(1252);
-
+	
 	menu();
 	
 	return 0;
 }
 
-void menu() /*Función menú*/
+
+// Función menú
+void menu()
 {
     int menu = 0;
     char opcion;
@@ -89,22 +118,26 @@ void menu() /*Función menú*/
 				system("cls");
                 cout <<"\n\t\t\t\t\t  = Gracias por Jugar <(* U *)/ =\n\n";
                 menu = 1;
-			    break;
+			    break;*/
 
             default:
                 system("cls");
                 cout <<"\n\t\t\t\t     -Opcion Incorrecta - Intente Nuevamente-\n\n";
                 system("pause");
-                system("cls");*/
+                system("cls");
         }
 
         system("cls");
     } while (menu == 0);
 }
 
-void titulo() /*Función título*/
+
+// Función tí­tulo
+void titulo()
 {
     cout <<"       ___________________________________________________________________________________________\n\n\n";
+    
+    color(3); // Color azul
 	cout <<"\t    # #   # ####  ####   ###     ####  ####    #### #   #  ###  #    ### ####  ####  ###   "<<endl;
 	cout <<"\t    # #   # #    #   ## #   #    #   # #       #    #   # #   # #     #  #   # #    #   #  "<<endl;
 	cout <<"\t    # #   # #    #      #   #    #   # #       #    #   # #     #     #  #   # #    #       "<<endl;
@@ -113,103 +146,149 @@ void titulo() /*Función título*/
 	cout <<"\t#   # #   # #    #   #  #   #    #   # #       #    #   # #   # #     #  #   # #    #   #  "<<endl;
 	cout <<"\t ###   ###  ####  ###    ###     ####  ####    ####  ###   ###  #### ### ####  ####  ###   "<<endl<<endl<<endl;
 	
+	color(14); // Color amarillo arema
 	cout <<"\t\t\t\t\t     1. Comenzar Juego\n\n\n";
 	cout <<"\t\t\t\t\t     2. Cargar Juego\n\n\n";
 	cout <<"\t\t\t\t\t     3. Acerca del Juego\n\n\n";
 	cout <<"\t\t\t\t\t     4. Ayuda\n\n\n";
 	cout <<"\t\t\t\t\t     0. Salir del juego\n\n";
 	
+	color(7); // Color blanco
 	cout <<"       ___________________________________________________________________________________________\n";
-    cout << "\n       Opcion (número) --> "; 
+    cout << "\n       Opcion (numero) --> "; 
 }
 
-void juego() /*Función juego*/
+
+// Función juego
+void juego()
 {
-    srand(time(0)); /*Semilla para el randomizer*/
-
+	// Semilla para el randomizer
+    srand(time(0));
+	
     system("cls");
-
+	
     Jugador jb, ja;
-    int tabla[FILAS][COLUMNAS]; /*Tabla que contendrá todo*/
+    int tabla[FILAS][COLUMNAS];
     int n_actual, n_nuevo;
-    /*Aquí irá en Do While para que se pueda empezar otra partida*/
-
-    /*Aquí se piden los nombres de los jugadores*/
-    cout << "Inserte el nombre del jugador blanco: ";
-    cin >> jb.nombre;
-    cout << "\nInserte el nombre del jugador azul: ";
-    cin >> ja.nombre;
     
+    /*Aquí­ irá en Do While para que se pueda empezar otra partida*/
+
+    // Solicitar los nombres de los jugadores
+	cout << "       ___________________________________________________________________________________________\n\n\n";
+	color(14); cout << "\t\t\t         = INGRESE LOS NOMBRES DE LOS JUGADORES =\n\n\n";
+	    
+	color(15); cout << "\t\t\t---> Jugador Blanco: "; color(7);
+	cin >> jb.nombre;
+	    
+	color(11); cout << "\n\t\t\t---> Jugador Azul: "; color(7);
+	cin >> ja.nombre;
+	    
+	color(12); cout << "\n\n\n\t\t\t\t\t    - Guardado Exitoso -\n\n";
+	color(7); cout << "       ___________________________________________________________________________________________\n\n";
+	    
+    system("pause");
     system("cls");
     
-    /*Se inicializa la tabla*/
-    for (int i = 0; i < FILAS; i++)
-    {
-        for (int j = 0; j < COLUMNAS; j++)
-        {
-            tabla[i][j] = 0;
-        }
-    }
+    // Inicializar la tabla
+	for (int i = 0; i < FILAS; i++)
+	{
+	    for (int j = 0; j < COLUMNAS; j++)
+	    {
+	        tabla[i][j] = 0;
+	    }
+	}
 
-    /*Se generan los dos números aleatorios*/
-    n_actual = 1+(rand()%NUMEROS);
-    n_nuevo = 1+(rand()%NUMEROS); 
+    // Generar los dos números aleatorios
+	n_actual = 1+(rand()%NUMEROS);
+	n_nuevo = 1+(rand()%NUMEROS); 
     
-    do /*Esta parte es para evitar que los números se repitan*/
-    {
-        if (n_actual == n_nuevo)
-        {
-            n_nuevo = 1+(rand()%NUMEROS);
-        }
-    } while (n_actual == n_nuevo);
+    // Evitar que los números se repitan
+	do
+	{
+	    if (n_actual == n_nuevo)
+	    {
+	        n_nuevo = 1+(rand()%NUMEROS);
+	    }
+	} while (n_actual == n_nuevo);
     
-    /*Se genera la posición del primer número*/
+    // Generar la posición del primer número
     int p_fila_actual = rand()%FILAS, p_columna_actual = rand()%COLUMNAS;
     
-    /*Se meter el primer número en la tabla*/
+    // Meter el primer número en la tabla
     tabla[p_fila_actual][p_columna_actual] = n_actual;
     
-    /*Se muestra quien es el primer jugador a partir de la posición del primer número*/
-    m_primer_jugador(jb, ja, p_fila_actual, p_columna_actual);
+    /* Mostrar quien es el primer jugador a partir de la 
+	   posición del primer número*/
+    bool jugador = m_primer_jugador(jb, ja, p_fila_actual, p_columna_actual);
     
-    n_actual = n_nuevo; /*Ahora se meterá el segundo número en la tabla*/
+    // Meter segundo número en la tabla
+    n_actual = n_nuevo;
+
+    do {
     
-    meter_numero(tabla, n_actual, p_fila_actual, p_columna_actual);
-    imprimir(tabla); /*Se imprime la tabla con los espacios vacíos y los dos números*/
+        meter_numero(tabla, n_actual, p_fila_actual, p_columna_actual);
+    
+        // Imprimir tabla con los espacios vací­os y los dos números
+        imprimir(tabla, jb, ja);
+        imprimirdatos(jugador, jb, ja);
+
+        cin >> n_actual;
+
+        //
+
+        //Se intercambia de jugador
+        jugador = !jugador;
+
+    } while(5); //Lo puse solo para probarlo
+
 }
 
-void m_primer_jugador(Jugador jb, Jugador ja, int p_fila_actual, int p_columna_actual) /*Función m_primer_jugador*/
+
+// Función m_primer_jugador
+bool m_primer_jugador(Jugador jb, Jugador ja, int p_fila_actual, int p_columna_actual)
 {
-    if ((p_fila_actual % 2 == 0) && (p_columna_actual % 2 == 0)) //Si la fila es par y la columna es par
+    cout << "       ___________________________________________________________________________________________\n\n\n\t\t\t\t       ";
+    
+	if ((p_fila_actual % 2 == 0) && (p_columna_actual % 2 == 0)) // Si la fila es par y la columna es par
     {
-        cout << jb.nombre << " Será el primer jugador." << endl;
+        color(15); cout << jb.nombre; color(7);
+        cout << " será el primer jugador." << endl;
+        cout << "\n       ___________________________________________________________________________________________\n\n";
         system("pause");
-        return;
+        return 0;
     }
 
-    if ((p_fila_actual % 2 != 0) && (p_columna_actual % 2 != 0))  //Si la fila es impar y la columna es impar
+    if ((p_fila_actual % 2 != 0) && (p_columna_actual % 2 != 0))  // Si la fila es impar y la columna es impar
     {
-        cout << jb.nombre << " Será el primer jugador." << endl;
+        color(15); cout << jb.nombre; color(7);
+        cout << " será el primer jugador." << endl;
+        cout << "\n       ___________________________________________________________________________________________\n\n";
         system("pause");
-        return;
+        return 0;
     }
 
-    if ((p_fila_actual % 2 == 0) && (p_columna_actual % 2 != 0)) //Si la fila es par y la columna es impar
+    if ((p_fila_actual % 2 == 0) && (p_columna_actual % 2 != 0)) // Si la fila es par y la columna es impar
     {
-        cout << ja.nombre << " Será el primer jugador." << endl;
+        color(11); cout << ja.nombre; color(7); 
+		cout << " será el primer jugador." << endl;
+		cout << "\n       ___________________________________________________________________________________________\n\n";
         system("pause");
-        return;
+        return 1;
     }
 
-    if ((p_fila_actual % 2 != 0) && (p_columna_actual % 2 == 0)) //Si la fila es impar y la columna es par
+    if ((p_fila_actual % 2 != 0) && (p_columna_actual % 2 == 0)) // Si la fila es impar y la columna es par
     {
-        cout << ja.nombre << " Será el primer jugador." << endl;
+        color(11); cout << ja.nombre; color(7); 
+		cout << " será el primer jugador." << endl;
+		cout << "\n       ___________________________________________________________________________________________\n\n";
         system("pause");
-        return;
+        return 1;
     }
 }
 
-void meter_numero(int tabla[FILAS][COLUMNAS], int n_actual, int &p_fila_actual, int &p_columna_actual) /*Función meter_numeros*/
+
+// Función meter_numeros
+void meter_numero(int tabla[FILAS][COLUMNAS], int n_actual, int &p_fila_actual, int &p_columna_actual)
 {
     if ((p_fila_actual % 2 == 0) && (p_columna_actual < COLUMNAS-1))
     {
@@ -284,36 +363,69 @@ void meter_numero(int tabla[FILAS][COLUMNAS], int n_actual, int &p_fila_actual, 
     }
 }
 
-void imprimir(int tabla[FILAS][COLUMNAS]) /*Función imprimir*/
+
+// Función imprimir
+void imprimir(int tabla[FILAS][COLUMNAS], Jugador jb, Jugador ja) /*Función imprimir*/
 {
 	system("cls");
+
     cout << "\n";
+    cout <<"       ___________________________________________________________________________________________\n\n\n";
 
 	for (int i = 0; i < FILAS; i++)
 	{
 		color(7);
-		cout << " ";
+        cout <<"\t\t\t\t   ";
 		for (int j = 0; j < COLUMNAS; j++)
 		{
 			if (((i+1) + (j)) % 2 == 0)
 				color(176);
+
             else
 				color(240);
-			if (tabla[i][j] < 10)
+
+            if(tabla[i][j] == 0)
+                cout << "    ";  
+
+			if (tabla[i][j] > 0 && tabla[i][j] < 10)
 				cout << " 0" << tabla[i][j] << " ";
-			else
-				cout << " " << tabla[i][j] << " ";
+			
+            else if(tabla[i][j] > 9)
+				cout << " " << tabla[i][j] << " ";  
+
 			if (j == 8-1)
 	        	cout << "\n" ;			
-		}
+		}    
 	}
-
-	color(7);
-	cout << "\n\n";	
-	system("pause");
+    color(7);
+    cout << "\n";
+    cout <<"       ___________________________________________________________________________________________\n";
 }
 
-void color(int n) /*Función color*/
+
+void imprimirdatos(bool jugador, Jugador jb, Jugador ja)
+{
+    cout <<"\n";
+    cout<<"\t\t\t\t\t Datos de Jugador ";
+    jugador ? color(11) : color(15);    //Dependiendo del jugador se cambia de color
+    cout<< (jugador ? "Azul:" : "Blanco:")<<endl;
+    
+    color(7);
+
+    cout<<"\t\t\t\t\t    Nombre:";
+    jugador ? color(11) : color(15);    //Indica los datos del jugador actual
+    cout << (jugador ? ja.nombre : jb.nombre);
+    
+    color(7);
+    cout << "\n\n\n";
+    cout <<"       ___________________________________________________________________________________________\n\n";
+
+	cout << "\t Ingrese número a jugar --> ";	
+}
+
+
+// Función color
+void color(int n)
 {
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), n);
 }
