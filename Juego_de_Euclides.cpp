@@ -51,9 +51,6 @@ void imprimir_tabla(int tabla[FILAS][COLUMNAS]);
 // Imprimir datos del jugador actual
 void imprimir_datos(bool jugador, Jugador jb, Jugador ja);
 
-// Imprime al jugador que ganó la partida, si no hay ganador, se imprime un mensaje de empate
-void imprimir_ganador(Jugador jb, Jugador ja);
-
 // Comprobar si el número ingresado por el usuario cumple la condición de inserción
 bool condicion_de_insercion(int n_actual, int *&jugadas, int &longitud);
 
@@ -63,11 +60,17 @@ void agrandar_arreglo(int *&jugadas, int &longitud);
 // Ordena un arreglo unidimensional usando quicksort 
 void ordenar_arreglo(int *&jugadas, int pri, int ult);
 
+// Imprime al jugador que ganó la partida, si no hay ganador, se imprime un mensaje de empate
+void imprimir_ganador(Jugador jb, Jugador ja);
+
 // Pintar las casillas de la tabla
 void color(int n);
 
 // Preguntarle a los jugadores si quieren empezar otra partida
 bool terminar();
+
+// Verifica si fueron ingresados todos los números posibles por partida
+bool verificar_jugadas(int *&jugadas, int n_mayor);
 
 using namespace std;
 
@@ -177,14 +180,14 @@ void juego()
     system("cls");
 	
     Jugador jb, ja;
+	jb.puntos = 0, ja.puntos = 0;
     int tabla[FILAS][COLUMNAS];
     int longitud = 2, *jugadas = new int[longitud];
-    int n_actual, n_aux, cont;
-    bool finalizar = FALSE;
+    int n_actual, n_aux, cont = 2, n_mayor;
+    bool sin_movimientos, finalizar = FALSE;
     
     do
 	{
-    	
 		// Solicitar los nombres de los jugadores
 		cout << "       ___________________________________________________________________________________________\n\n\n";
 		color(14); cout << "\t\t\t         = INGRESE LOS NOMBRES DE LOS JUGADORES =\n\n\n";
@@ -198,7 +201,7 @@ void juego()
 		fflush(stdin);
 	
 		color(12); cout << "\n\n\n\t\t\t\t\t    - Guardado Exitoso -\n\n";
-		color(7); cout << "       ___________________________________________________________________________________________\n\n";
+		color(7); cout << "       ___________________________________________________________________________________________\n\n\t";
 		
 	    system("pause");
 	    system("cls");
@@ -216,29 +219,30 @@ void juego()
 	
 	    // Generar los dos números aleatorios
 		n_actual = 1+(rand()%NUMEROS);
-		n_aux = 1+(rand()%NUMEROS); 
-	    
-	    
-	    // Evitar que los números se repitan
+		n_aux = 1+(rand()%NUMEROS);
+
+	    // Evitar que los números se repitan y que no se puedan realizar jugadas
 		do
 		{
-		    if (n_actual == n_aux)
+		    if ((n_actual == n_aux) || ((n_actual == 1 && n_aux == 2) || (n_actual == 2 && n_aux == 1)))
 		    {
 		        n_aux = 1+(rand()%NUMEROS);
 		    }
-		} while (n_actual == n_aux);
-	    
-	    
+		} while ((n_actual == n_aux) || ((n_actual == 1 && n_aux == 2) || (n_actual == 2 && n_aux == 1)));
+
+
 	    // Se meten los números en el arreglo de jugadas en orden ascendente
 	    if (n_actual < n_aux)
 	    {
 	        jugadas[0] = n_actual;
 	        jugadas[1] = n_aux;
+            n_mayor = n_aux;
 	    }
 	    else
 	    {
 	        jugadas[0] = n_aux;
 	        jugadas[1] = n_actual;
+            n_mayor = n_actual;
 	    }
 	
 	
@@ -262,19 +266,28 @@ void juego()
 	    meter_numero(tabla, n_actual, p_fila_actual, p_columna_actual);
 	    
 	    
-	    // Inicializar variables
-	    cont = 2;
-	    jb.puntos = 0;
-		ja.puntos = 0;
-	    
-	    
 	    do
 	    {
-	    	
+            // Comprobar si se pueden realizar movimientos
+            sin_movimientos = verificar_jugadas(jugadas, n_mayor);
+            
+            if (sin_movimientos == TRUE)
+			{
+                imprimir_tabla(tabla);
+                color(10);
+                cout <<"\n\t\t\t      == No se pueden realizar más movimientos. ==\n";
+                color(7);
+                imprimir_ganador(jb, ja);
+                finalizar = terminar();
+                break;
+			}
+
+
 	        // Imprimir la intefaz de juego
 	        imprimir_tabla(tabla);
 	        imprimir_datos(jugador, jb, ja);
 	        
+
 	        // Almacernar el número ingresado por el usuario
 	        cin >> n_actual;
 	        fflush(stdin);
@@ -314,6 +327,9 @@ void juego()
 	        if (cont == NUMEROS) // Si se terminan las casillas, gana el jugador que tenga más puntos
 	        {
 				imprimir_tabla(tabla);
+                color(10);
+                cout << "\n\t\t\t\t     == El tablero ya está lleno. ==\n";
+                color(7);
 	            imprimir_ganador(jb, ja);
 
 	            finalizar = terminar();
@@ -323,6 +339,7 @@ void juego()
 	        {
 	            jugador = !jugador;
 	        }
+			
 	    } while(1);
 	    
 	    system("cls");
@@ -339,7 +356,7 @@ bool m_primer_jugador(Jugador jb, Jugador ja, int p_fila_actual, int p_columna_a
     {
         color(15); cout << jb.nombre; color(7);
         cout << " será el primer jugador." << endl;
-        cout << "\n       ___________________________________________________________________________________________\n\n";
+        cout << "\n       ___________________________________________________________________________________________\n\n\t";
         system("pause");
         return FALSE;
     }
@@ -348,7 +365,7 @@ bool m_primer_jugador(Jugador jb, Jugador ja, int p_fila_actual, int p_columna_a
     {
         color(15); cout << jb.nombre; color(7);
         cout << " será el primer jugador." << endl;
-        cout << "\n       ___________________________________________________________________________________________\n\n";
+        cout << "\n       ___________________________________________________________________________________________\n\n\t";
         system("pause");
         return FALSE;
     }
@@ -357,7 +374,7 @@ bool m_primer_jugador(Jugador jb, Jugador ja, int p_fila_actual, int p_columna_a
     {
         color(11); cout << ja.nombre; color(7); 
 		cout << " será el primer jugador." << endl;
-		cout << "\n       ___________________________________________________________________________________________\n\n";
+		cout << "\n       ___________________________________________________________________________________________\n\n\t";
         system("pause");
         return TRUE;
     }
@@ -366,7 +383,7 @@ bool m_primer_jugador(Jugador jb, Jugador ja, int p_fila_actual, int p_columna_a
     {
         color(11); cout << ja.nombre; color(7); 
 		cout << " será el primer jugador." << endl;
-		cout << "\n       ___________________________________________________________________________________________\n\n";
+		cout << "\n       ___________________________________________________________________________________________\n\n\t";
         system("pause");
         return TRUE;
     }
@@ -527,28 +544,30 @@ void imprimir_ganador(Jugador jb, Jugador ja)
 {
 	cout << "       ___________________________________________________________________________________________\n\n\n";
 	color(12);
-	cout << "\t\t\t\t\t   = PARTIDA TERMINADA =\n\n\n";
+    /*                                       --------------------------------                                   */
+    /*                                            = PARTIDA  TERMINADA =                                                           */
+	cout << "\t\t\t\t\t = PARTIDA  TERMINADA =\n\n\n";
 	color(7);
 	
 	if (jb.puntos > ja.puntos) //Si gana el jugador blanco
 	{
 		color(14);
-		cout << "\t\t\t\t           * +  FELICIDADES  + *" << endl;
-		color(7);
+		cout << "\t\t\t\t          * +  FELICIDADES  + *" << endl;
+		color(15);
 		
-		cout << "\n\n\t\t\t\t\t\t  " << jb.nombre << endl;
+		cout << "\n\n\t\t\t\t\t\t " << jb.nombre << endl;
 		
 		color(14);
-		cout << "\n\n\t\t\t\t            .*+ HAS  GANADO +*.\n" << endl;
+		cout << "\n\n\t\t\t\t           .*+ HAS  GANADO +*.\n" << endl;
 		color(7);
 	}
 	else if (ja.puntos > jb.puntos) //Si gana el jugador azúl
     {	
     	color(14);
-		cout << "\t\t\t\t           * +  FELICIDADES  + *" << endl;
+		cout << "\t\t\t\t          * +  FELICIDADES  + *" << endl;
 		color(11);
     	
-    	cout << "\n\n\t\t\t\t\t\t  " << ja.nombre << endl;
+    	cout << "\n\n\t\t\t\t\t\t " << ja.nombre << endl;
     	
     	color(14);
 		cout << "\n\n\t\t\t\t            .*+ HAS  GANADO +*.\n" << endl;
@@ -557,13 +576,13 @@ void imprimir_ganador(Jugador jb, Jugador ja)
     else if (ja.puntos == jb.puntos) // Si hay empate
     {	
     	color(14);
-        cout << "\t\t\t\t\t      * + EMPATE + *" << endl;
+        cout << "\t\t\t\t\t     * + EMPATE + *" << endl;
         
         color(7);
         cout << "\n\n\t\t\t\t          .*+ NO HAY GANADOR +*.\n" << endl;
     }
 	
-	cout << "       ___________________________________________________________________________________________\n\n";
+	cout << "       ___________________________________________________________________________________________\n\n\t ";
 	
 	system ("pause");
 	system("cls");
@@ -600,6 +619,30 @@ bool condicion_de_insercion(int n_actual, int *&jugadas, int &longitud)
         }
     }
 
+    return FALSE;
+}
+
+
+// Función verificar_jugadas
+bool verificar_jugadas(int *&jugadas, int n_mayor)
+{
+    int array[n_mayor];
+    int igual = 0;
+    
+    for (int i = n_mayor; i >= 0; i--)
+    {
+        array[i] = i+1;
+    }
+
+    for (int i = 0; i < n_mayor; i++)
+    {
+        if (array[i] == jugadas[i])
+            igual++;
+        
+        if (igual == n_mayor)
+            return TRUE;
+
+    }
     return FALSE;
 }
 
