@@ -45,6 +45,9 @@ bool m_primer_jugador(Jugador jb, Jugador ja, int p_fila_actual, int p_columna_a
 // Meter los números y las x's en la matriz de forma ordenada
 void meter_numero(int tabla[FILAS][COLUMNAS], int n_actual, int &p_fila_actual, int &p_columna_actual);
 
+// Verifica si fueron ingresados todos los números posibles por partida
+bool verificar_jugadas(int *&jugadas, int n_mayor);
+
 // Imprimir en pantalla la interfaz de juego
 void imprimir_tabla(int tabla[FILAS][COLUMNAS]);
 
@@ -57,8 +60,8 @@ bool condicion_de_insercion(int n_actual, int *&jugadas, int &longitud);
 // Aumenta el tamaño de un arreglo dinámico
 void agrandar_arreglo(int *&jugadas, int &longitud);
 
-// Ordena un arreglo unidimensional usando quicksort 
-void ordenar_arreglo(int *&jugadas, int pri, int ult);
+// Comparar dos elementos, necesario para ordenar un vector con la función qsort
+int cmpfunc (const void * a, const void * b);
 
 // Imprime al jugador que ganó la partida, si no hay ganador, se imprime un mensaje de empate
 void imprimir_ganador(Jugador jb, Jugador ja);
@@ -68,9 +71,6 @@ void color(int n);
 
 // Preguntarle a los jugadores si quieren empezar otra partida
 bool terminar();
-
-// Verifica si fueron ingresados todos los números posibles por partida
-bool verificar_jugadas(int *&jugadas, int n_mayor);
 
 using namespace std;
 
@@ -539,7 +539,7 @@ void imprimir_datos(bool jugador, Jugador jb, Jugador ja)
 	cout << "       Ingrese número a jugar --> ";	
 }
 
-// Función para imprimir resultados
+// Función imprimir_ganador
 void imprimir_ganador(Jugador jb, Jugador ja)
 {
 	cout << "       ___________________________________________________________________________________________\n\n\n";
@@ -612,7 +612,7 @@ bool condicion_de_insercion(int n_actual, int *&jugadas, int &longitud)
                 {
                     agrandar_arreglo(jugadas, longitud);
                     jugadas[longitud-1] = n_actual;
-                    ordenar_arreglo(jugadas, 0, longitud-1);
+                    qsort(jugadas, longitud, sizeof(int), cmpfunc);
                     return TRUE;
                 }
             }
@@ -665,41 +665,10 @@ void agrandar_arreglo(int *&jugadas, int &longitud)
 }
 
 
-// Función ordenar_arreglo
-void ordenar_arreglo(int *&jugadas, int pri, int ult)
+// Función cmpfunc
+int cmpfunc(const void * a, const void * b)
 {
-    int i, j, cen, piv, aux;
-	
-	cen = (pri + ult) / 2;
-	piv = jugadas[cen];
-	i = pri;
-	j = ult;
-	
-	do
-	{
-		while(jugadas[i] < piv) i++;
-		while(jugadas[j] > piv) j--;
-		
-		if (i <= j)
-		{
-		    aux = jugadas[i];
-		    jugadas[i] = jugadas[j];
-		    jugadas[j] = aux;
-			i++;
-			j--;
-		}
-		
-	} while (i <= j);
-	
-	if (pri < j)
-	{
-		ordenar_arreglo(jugadas, pri, j);
-	}
-	
-	if (i < ult)
-	{
-		ordenar_arreglo(jugadas, i, ult);
-	}
+	return ( *(int*)a - *(int*)b );
 }
 
 
