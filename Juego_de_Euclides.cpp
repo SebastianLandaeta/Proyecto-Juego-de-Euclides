@@ -649,7 +649,6 @@ void juego()
                                 cout << entradas[i];
 							}
 						}
-
 						cout << ' ' << "\b";
 					}
 					else if ((int)aux == 13 && l_entradas > 1) //Si colocas un enter y hay números, entonces el arreglo se convierte a entero y se mete en la variable
@@ -876,9 +875,9 @@ void agrandar_arreglo_char(char *&entradas, int &l_entradas)
 void disminuir_arreglo_char(char *&entradas, int &l_entradas)
 {
     l_entradas--;
+	
 	if (l_entradas == 1)
 	{
-        delete[] entradas;
 		return;
 	}
 
