@@ -176,7 +176,7 @@ void menu()
 				color(10);
 				cout << "\n\t\t\t\t\t  = Gracias por Jugar <(* U *)/ =\n\n\n";
 				color(7);
-				cout <<"       ___________________________________________________________________________________________\n\n\t";
+				cout << "       ___________________________________________________________________________________________\n\n\t";
                 system("pause");
                 menu = 1;
 			    break;
@@ -294,7 +294,7 @@ void configuracion_de_juego()
 	partida.n_actual = n_aux;
 	meter_numero(partida.tabla, partida.n_actual, partida.p_fila_actual, partida.p_columna_actual);
    
-   // Escribir todos los datos en un archivo
+    // Escribir todos los datos en un archivo
 	escribir_en_archivo(partida);
 }
 
@@ -655,7 +655,7 @@ void juego()
 
 						cout << ' ' << "\b";
 					}
-					else if ((int)aux == 13 && l_entradas > 1) //Si colocas un enter y hay números, entonces el arreglo se convierte a entero y se mete en la variable
+					else if ((int)aux == 13 && l_entradas > 1) // Si colocas un enter y hay números, entonces el arreglo se convierte a entero y se mete en la variable
 					{
                         partida.n_actual = atoi(entradas);
 						delete[] entradas;
@@ -707,8 +707,7 @@ void juego()
 	    // Se mete el número en la tabla y aumenta el número de elementos en la misma
 	    meter_numero(partida.tabla, partida.n_actual, partida.p_fila_actual, partida.p_columna_actual);
 	    partida.n_elementos++;
-			
-
+		
 	    if (partida.n_elementos == NUMEROS) // Si se terminan las casillas, gana el jugador que tenga más puntos
 	    {
 			remove("datos_de_partida.bin");
