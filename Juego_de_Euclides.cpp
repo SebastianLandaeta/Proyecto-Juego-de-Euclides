@@ -13,6 +13,7 @@
 #include <locale>
 #include <windows.h>
 #include <conio.h>
+#include <string.h>
 
 // == CONSTANTES ==
 #define FILAS 8
@@ -78,14 +79,14 @@ void imprimir_tabla(int tabla[FILAS][COLUMNAS]);
 // Imprime en pantalla los datos del jugador actual
 void imprimir_datos(bool jugador, Jugador jb, Jugador ja);
 
-// Aumenta el tamaño de un arreglo dinámico de caracteres
-void agrandar_arreglo_char(char *&entradas, int &l_entradas);
-
-// Disminuir el tamaño de un arreglo dinámico de caracteres
+// Empequeñeser el tamaño de un arreglo dinamico de caracteres
 void disminuir_arreglo_char(char *&entradas, int &l_entradas);
 
+// Aumenta el tamaño de un arreglo dinamico de caracteres
+void agrandar_arreglo_char(char *&entradas, int &l_entradas);
+
 // Imprime al jugador que ganó la partida, si no hay ganador, se imprime un mensaje de empate
-void imprimir_ganador(Jugador jb, Jugador ja);
+void imprimir_ganador(Jugador jb, Jugador ja, int min);
 
 // Imprime al jugador contrario al actual como ganador
 void imprimir_ganador_contrario(Jugador jb, Jugador ja, bool jugador);
@@ -171,7 +172,11 @@ void menu()
          
 			case '0': // Salir del juego
 				system("cls");
-                cout << "\n\n\n\t\t\t\t\t  = Gracias por Jugar <(* U *)/ =\n\n\n";
+				cout << "       ___________________________________________________________________________________________\n\n\n";
+				color(10);
+				cout << "\n\t\t\t\t\t  = Gracias por Jugar <(* U *)/ =\n\n\n";
+				color(7);
+				cout <<"       ___________________________________________________________________________________________\n\n\t";
                 system("pause");
                 menu = 1;
 			    break;
@@ -470,7 +475,7 @@ void juego()
     bool sin_movimientos;
     DWORD verificar_seg, verificar_min, tiempo;
     char aux, *entradas;
-    int l_entradas = 1, seg_min = 0, min = 0;
+    int l_entradas = 1;
     
 	// Se declara una variable de tipo Partida
     Partida partida;
@@ -540,7 +545,7 @@ void juego()
             color(10);
             cout <<"\n\t\t\t      == No se pueden realizar más movimientos. ==\n";
             color(7);
-            imprimir_ganador(partida.jb, partida.ja);
+            imprimir_ganador(partida.jb, partida.ja, partida.min);
             break;
 		}
 
@@ -616,31 +621,29 @@ void juego()
 				aux = getch();
                 
 				// En partida solo se acepta el uso de números, enter y backspace
-				if ((int)aux == 13 || (int(aux) >= 48 && int(aux) <= 57))
+				if ((int)aux == 13 || (int(aux) >= 48 && int(aux) <= 57) || int(aux) == 8)
 				{
                     if ((int)aux != 13 && int(aux) != 8 && l_entradas == 1) //Si colocas un dígito cuando no hay nada, se reserva espacio y se mete en el arreglo
 					{
-                        l_entradas++;
 						entradas = new char[l_entradas];
+						agrandar_arreglo_char(entradas, l_entradas);
 						entradas[l_entradas-2] = aux;
-						entradas[l_entradas-1] = '\0';
+
 						cout << entradas[l_entradas-2];
 					}
 					else if ((int)aux != 13 && int(aux) != 8 && l_entradas > 1) //Si colocas un dígito cuando ya hay otro, se agranda el arreglo y se coloca el otro
 					{
                         agrandar_arreglo_char(entradas, l_entradas);
 						entradas[l_entradas-2] = aux;
-                        entradas[l_entradas-1] = '\0';
 
 						for (int i = 0; i < l_entradas; i++)
 						{
 							cout << entradas[i];
 						}
 					}
-                    else if ((int)aux == 8 && l_entradas > 1) //Si colocas un backspace y hay números, se borrará el último dígito insertado
+					else if ((int)aux == 8 && l_entradas > 1) //Si colocas un backspace y hay números, se borrará el último dígito insertado
 					{	
-						disminuir_arreglo_char(entradas, l_entradas);
-                        entradas[l_entradas-1] = '\0';
+						disminuir_arreglo_char(entradas, l_entradas);                     
 
 						if (l_entradas > 1)
 						{
@@ -649,9 +652,10 @@ void juego()
                                 cout << entradas[i];
 							}
 						}
+
 						cout << ' ' << "\b";
 					}
-					else if ((int)aux == 13 && l_entradas > 1) //Si colocas un enter y hay números, entonces el arreglo se convierte a entero y se mete en la variable
+					else if ((int)aux == 13 && l_entradas > 1) // Si colocas un enter y hay números, entonces el arreglo se convierte a entero y se mete en la variable
 					{
                         partida.n_actual = atoi(entradas);
 						delete[] entradas;
@@ -703,8 +707,7 @@ void juego()
 	    // Se mete el número en la tabla y aumenta el número de elementos en la misma
 	    meter_numero(partida.tabla, partida.n_actual, partida.p_fila_actual, partida.p_columna_actual);
 	    partida.n_elementos++;
-			
-
+		
 	    if (partida.n_elementos == NUMEROS) // Si se terminan las casillas, gana el jugador que tenga más puntos
 	    {
 			remove("datos_de_partida.bin");
@@ -712,7 +715,7 @@ void juego()
             color(10);
             cout << "\n\t\t\t\t     == El tablero ya está lleno. ==\n";
             color(7);
-	        imprimir_ganador(partida.jb, partida.ja);
+	        imprimir_ganador(partida.jb, partida.ja, partida.min);
 			break;	            
 	    }		
 	    else // Si aún quedan casillas, comienza el turno del siguiente jugador
@@ -731,7 +734,7 @@ void juego()
         color(10);
         cout << "\n\t\t\t\t        == Se agotó el tiempo ==\n\n\t\t\t\t\t   Pasaron 15 minutos\n";
         color(7);
-	    imprimir_ganador(partida.jb, partida.ja);
+	    imprimir_ganador(partida.jb, partida.ja, partida.min);
 	}
 }
 
@@ -857,12 +860,14 @@ void imprimir_datos(bool jugador, Jugador jb, Jugador ja)
 void agrandar_arreglo_char(char *&entradas, int &l_entradas)
 {
     l_entradas++;
+	
+	entradas[l_entradas - 1] = '\0';
 
 	char *aux = new char[l_entradas];
 
-	for (int i = 0; i <= l_entradas-3; i++)
+	for (int i = 0; i <= l_entradas-1; i++)
 	{
-		aux[i] = entradas[i];
+		aux[i] = entradas[i];		
 	}
 
 	delete[] entradas;
@@ -873,17 +878,19 @@ void agrandar_arreglo_char(char *&entradas, int &l_entradas)
 
 // Función disminuir_arreglo_char
 void disminuir_arreglo_char(char *&entradas, int &l_entradas)
-{
-    l_entradas--;
+{    
+	l_entradas--;
+	
+	entradas[l_entradas-1] = '\0';
+
 	if (l_entradas == 1)
 	{
-        //delete[] entradas;
 		return;
 	}
 
-	char *aux = new char[l_entradas-1];
+	char *aux = new char[l_entradas];
 
-	for (int i = 0; i <= l_entradas-2; i++)
+	for (int i = 0; i <= l_entradas-1; i++)
 	{
 		aux[i] = entradas[i];
 	}
@@ -893,15 +900,21 @@ void disminuir_arreglo_char(char *&entradas, int &l_entradas)
 	entradas = aux;
 }
 
-
 // Función imprimir_ganador
-void imprimir_ganador(Jugador jb, Jugador ja)
+void imprimir_ganador(Jugador jb, Jugador ja, int min)
 {
+	int Y = 25;//Coordenada de la funcion gotoxy
+
 	cout << "       ___________________________________________________________________________________________\n\n\n";
 	color(12);
 
 	cout << "\t\t\t\t\t = PARTIDA  TERMINADA =\n\n\n";
 	color(7);
+	
+	if (min == 15)
+	{
+		Y += 2;
+	}
 	
 	if (jb.puntos > ja.puntos)       //Si gana el jugador blanco
 	{
@@ -909,7 +922,8 @@ void imprimir_ganador(Jugador jb, Jugador ja)
 		cout << "\t\t\t\t          * +  FELICIDADES  + *" << endl;
 		color(15);
 		
-		cout << "\n\n\t\t\t\t\t\t " << jb.nombre << endl;
+		gotoxy((52 - (strlen(jb.nombre)/2)), Y);	//Para que el nombre del ganador quede en el centro - strlen()devuelve la longitud de la cadena
+		cout << jb.nombre << endl;
 		
 		color(14);
 		cout << "\n\n\t\t\t\t           .*+ HAS  GANADO +*.\n" << endl;
@@ -921,7 +935,8 @@ void imprimir_ganador(Jugador jb, Jugador ja)
 		cout << "\t\t\t\t          * +  FELICIDADES  + *" << endl;
 		color(11);
     	
-    	cout << "\n\n\t\t\t\t\t\t " << ja.nombre << endl;
+    	gotoxy((52 - (strlen(ja.nombre)/2)), Y);
+		cout << ja.nombre << endl;
     	
     	color(14);
 		cout << "\n\n\t\t\t\t            .*+ HAS  GANADO +*.\n" << endl;
@@ -959,7 +974,8 @@ void imprimir_ganador_contrario(Jugador jb, Jugador ja, bool jugador)
 		cout << "\t\t\t\t          * +  FELICIDADES  + *" << endl;
 		color(15);
 		
-		cout << "\n\n\t\t\t\t\t\t " << jb.nombre << endl;
+		gotoxy((52 - (strlen(jb.nombre)/2)), 27);
+		cout << jb.nombre << endl;
 		
 		color(14);
 		cout << "\n\n\t\t\t\t           .*+ HAS  GANADO +*.\n" << endl;
@@ -971,7 +987,8 @@ void imprimir_ganador_contrario(Jugador jb, Jugador ja, bool jugador)
 		cout << "\t\t\t\t          * +  FELICIDADES  + *" << endl;
 		color(11);
     	
-    	cout << "\n\n\t\t\t\t\t\t " << ja.nombre << endl;
+    	gotoxy((52 - (strlen(ja.nombre)/2)), 27);
+		cout << ja.nombre << endl;
     	
     	color(14);
 		cout << "\n\n\t\t\t\t            .*+ HAS  GANADO +*.\n" << endl;
@@ -1079,7 +1096,7 @@ void acerca_del_juego()
 				cout << "\t\t\t\t\t= DESCRIPCIÓN DEL JUEGO =\n\n";
 				color(7);
 							
-				cout << "\n\t Es  un  juego  cuyo  nombre  hace  referencia  al matemático y geogebra griego Euclides" << endl;
+				cout << "\n\t Es  un  juego  cuyo  nombre  hace  referencia  al matemático y geómetra griego Euclides" << endl;
 				cout << "\t (ca. 325 a. C.-ca. 265 a. C), el cual consiste en un tablero  de  (8x8), en  donde  dos" << endl;
 				cout << "\t jugadores deben colocar dos números enteros positivos desiguales (distintos) del  1  al" << endl;
 				cout << "\t 64 e ir creando combinaciones de diferencias o restas entre los  números  indicados  en" << endl;
