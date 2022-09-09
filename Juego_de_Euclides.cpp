@@ -106,7 +106,7 @@ void acerca_del_juego();
 // Preguntas frecuentes
 void ayuda();
 
-// Pinta las casillas de la tabla
+// Pintar elementos en pantalla
 void color(int n);
 
 // Mueve el cursor a una coordenada específica
@@ -541,9 +541,10 @@ void juego()
         if (sin_movimientos == TRUE)
 		{
             remove("datos_de_partida.bin");
+			delete[] partida.jugadas;
 			imprimir_tabla(partida.tabla);
             color(10);
-            cout <<"\n\t\t\t      == No se pueden realizar más movimientos. ==\n";
+            cout << "\n\t\t\t      == No se pueden realizar más movimientos. ==\n";
             color(7);
             imprimir_ganador(partida.jb, partida.ja, partida.min);
             break;
@@ -615,7 +616,7 @@ void juego()
             }
 
             // Se comprueba constantemente si el jugador presionó una tecla
-        	if (kbhit()) //khbit() [conio.h] es una función que sirve para determinar si se presionó una tecla o no.
+        	if (kbhit()) // khbit() [conio.h] es una función que sirve para determinar si se presionó una tecla o no.
         	{
 				gotoxy(34,28);
 				aux = getch();
@@ -669,6 +670,7 @@ void juego()
         if (verificar_seg == GetTickCount()) // Si al jugador se le acaba el tiempo, gana su contrincante
         {
 			remove("datos_de_partida.bin");
+			delete[] partida.jugadas;
 			system("cls");
 			imprimir_tabla(partida.tabla);
             color(10);
@@ -711,6 +713,7 @@ void juego()
 	    if (partida.n_elementos == NUMEROS) // Si se terminan las casillas, gana el jugador que tenga más puntos
 	    {
 			remove("datos_de_partida.bin");
+			delete[] partida.jugadas;
 			imprimir_tabla(partida.tabla);
             color(10);
             cout << "\n\t\t\t\t     == El tablero ya está lleno. ==\n";
@@ -729,6 +732,7 @@ void juego()
 	if (partida.min == 15) // Si pasan 15 minutos y el juego no ha terminado, gana el jugador que tenga más puntos
 	{
 		remove("datos_de_partida.bin");
+		delete[] partida.jugadas;
 		system("cls");
 		imprimir_tabla(partida.tabla);
         color(10);
@@ -900,10 +904,11 @@ void disminuir_arreglo_char(char *&entradas, int &l_entradas)
 	entradas = aux;
 }
 
+
 // Función imprimir_ganador
 void imprimir_ganador(Jugador jb, Jugador ja, int min)
 {
-	int Y = 25;//Coordenada de la funcion gotoxy
+	int Y = 25; // Coordenada de la funcion gotoxy
 
 	cout << "       ___________________________________________________________________________________________\n\n\n";
 	color(12);
@@ -916,20 +921,20 @@ void imprimir_ganador(Jugador jb, Jugador ja, int min)
 		Y += 2;
 	}
 	
-	if (jb.puntos > ja.puntos)       //Si gana el jugador blanco
+	if (jb.puntos > ja.puntos) // Si gana el jugador blanco
 	{
 		color(14);
 		cout << "\t\t\t\t          * +  FELICIDADES  + *" << endl;
 		color(15);
 		
-		gotoxy((52 - (strlen(jb.nombre)/2)), Y);	//Para que el nombre del ganador quede en el centro - strlen()devuelve la longitud de la cadena
+		gotoxy((52 - (strlen(jb.nombre)/2)), Y); // Para que el nombre del ganador quede en el centro - strlen()devuelve la longitud de la cadena
 		cout << jb.nombre << endl;
 		
 		color(14);
 		cout << "\n\n\t\t\t\t           .*+ HAS  GANADO +*.\n" << endl;
 		color(7);
 	}
-	else if (ja.puntos > jb.puntos)  //Si gana el jugador azúl
+	else if (ja.puntos > jb.puntos) // Si gana el jugador azúl
     {	
     	color(14);
 		cout << "\t\t\t\t          * +  FELICIDADES  + *" << endl;
