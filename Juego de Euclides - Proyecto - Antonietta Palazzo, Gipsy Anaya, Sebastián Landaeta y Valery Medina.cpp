@@ -1,8 +1,12 @@
 /*	Proyecto: Juego de Euclides
-	Alumnos: Sebastián Landaeta, Gipsy Anaya, Antonietta Palazzo y Valery Medina
-	Ingenierí­a Informática
+    Ingenierí­a Informática
 	Técnicas de Programación II
 	Sección 1
+	Alumnos: 
+        Sebastián Landaeta (CI: 28.240.979)
+        Gipsy Anaya (CI: 27.966.466)
+        Antonietta Palazzo (CI: 28.619.939)
+        Valery Medina (CI: 29.643.312)
 */
 
 // == LIBRERIAS ==
@@ -79,10 +83,10 @@ void imprimir_tabla(int tabla[FILAS][COLUMNAS]);
 // Imprime en pantalla los datos del jugador actual
 void imprimir_datos(bool jugador, Jugador jb, Jugador ja);
 
-// Empequeñeser el tamaño de un arreglo dinamico de caracteres
+// Disminuye el tamaño de un arreglo dinámico de caracteres
 void disminuir_arreglo_char(char *&entradas, int &l_entradas);
 
-// Aumenta el tamaño de un arreglo dinamico de caracteres
+// Aumenta el tamaño de un arreglo dinámico de caracteres
 void agrandar_arreglo_char(char *&entradas, int &l_entradas);
 
 // Imprime al jugador que ganó la partida, si no hay ganador, se imprime un mensaje de empate
@@ -124,7 +128,7 @@ int main()
     SetConsoleCP(1252);
 	SetConsoleOutputCP(1252);
 
-	// Cambiar el titulo de la ventana por el nombre del juego
+	// Cambiar el título de la ventana por el nombre del juego
 	SetConsoleTitleA("Juego de Euclides");
     
 	// Abrir el menú de opciones
@@ -142,7 +146,7 @@ void menu()
 
     do
     {
-		// Mostrar la intefaz del menú
+		// Mostrar la interfaz del menú
         titulo();
         
 		// Almacenar la opción escogida por el usuario
@@ -473,7 +477,7 @@ void juego()
 {
 	// Crear variables locales necesarias para la partida
     bool sin_movimientos;
-    DWORD verificar_seg, verificar_min, tiempo;
+    DWORD verificar_seg, tiempo;
     char aux, *entradas;
     int l_entradas = 1;
     
@@ -483,7 +487,7 @@ void juego()
 	// Se abre el archivo para lectura
     FILE *ptrfile = fopen("datos_de_partida.bin", "rb");
 
-    // Comprobar si se abrio el archivo correctamente
+    // Comprobar si se abrió el archivo correctamente
 	if (ptrfile == NULL)
 	{
 		system("cls");
@@ -934,7 +938,7 @@ void imprimir_ganador(Jugador jb, Jugador ja, int min)
 		cout << "\n\n\t\t\t\t           .*+ HAS  GANADO +*.\n" << endl;
 		color(7);
 	}
-	else if (ja.puntos > jb.puntos) // Si gana el jugador azúl
+	else if (ja.puntos > jb.puntos) // Si gana el jugador azul
     {	
     	color(14);
 		cout << "\t\t\t\t          * +  FELICIDADES  + *" << endl;
@@ -1082,7 +1086,7 @@ void acerca_del_juego()
 		color(14);
 		cout << "\t\t\t\t\t    1. Descripción\n\n\n";
 		cout << "\t\t\t\t\t    2. Credenciales\n\n\n";
-		cout << "\t\t\t\t\t    3. Salir\n\n";
+		cout << "\t\t\t\t\t    3. Regresar al menú\n\n";
 		
 		color(7);
 		cout << "       ___________________________________________________________________________________________\n";
@@ -1178,7 +1182,7 @@ void ayuda()
 		cout << "\t\t\t\t6. Ya no tengo más combinaciones\n\n\n";
 		cout << "\t\t\t\t7. Cómo culmino el juego\n\n\n";
 		cout << "\t\t\t\t8. Tip\n\n\n";
-		cout << "\t\t\t\t9. Salir\n\n";
+		cout << "\t\t\t\t9. Regresar al menú\n\n";
 		
 		color(7);
 		cout << "       ___________________________________________________________________________________________\n";
