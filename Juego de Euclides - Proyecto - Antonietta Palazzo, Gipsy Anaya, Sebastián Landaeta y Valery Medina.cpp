@@ -37,7 +37,7 @@ struct Jugador
 // Datos de cada partida
 struct Partida
 {
-    Jugador jb;                 // Datos del jugador blanco
+        Jugador jb;                 // Datos del jugador blanco
 	Jugador ja;                 // Datos del jugador azul
 	int tabla[FILAS][COLUMNAS]; // Tablero de juego
 	int *jugadas;               // Números insertados en la tabla
