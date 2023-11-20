@@ -1,5 +1,5 @@
 /*	Proyecto: Juego de Euclides
-    Ingenierí­a Informática
+        Ingenierí­a Informática
 	Técnicas de Programación II
 	Sección 1
 	Alumnos: 
