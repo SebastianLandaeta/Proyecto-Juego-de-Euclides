@@ -1,9 +1,9 @@
 /*	Proyecto: Juego de Euclides
-    Ingenierí­a Informática
-	Técnicas de Programación II
-	Sección 1
+    IngenierÃ­Â­a InformÃ¡tica
+	TÃ©cnicas de ProgramaciÃ³n II
+	SecciÃ³n 1
 	Alumnos: 
-        Sebastián Landaeta (CI: 28.240.979)
+        SebastiÃ¡n Landaeta (CI: 28.240.979)
         Gipsy Anaya (CI: 27.966.466)
         Antonietta Palazzo (CI: 28.619.939)
         Valery Medina (CI: 29.643.312)
@@ -40,32 +40,32 @@ struct Partida
     Jugador jb;                 // Datos del jugador blanco
 	Jugador ja;                 // Datos del jugador azul
 	int tabla[FILAS][COLUMNAS]; // Tablero de juego
-	int *jugadas;               // Números insertados en la tabla
+	int *jugadas;               // NÃºmeros insertados en la tabla
 	int longitud;               // Longitud del vector de jugadas
-	int n_elementos;            // Número de elementos en la tabla
-	int n_actual;               // Última jugada realizada
-	int p_fila_actual;          // Coordenada fila del número actual
-	int p_columna_actual;       // Coordenada columna del número actual
-	bool turno;                 // Identifica a qué usuario le toca jugar
+	int n_elementos;            // NÃºmero de elementos en la tabla
+	int n_actual;               // Ãšltima jugada realizada
+	int p_fila_actual;          // Coordenada fila del nÃºmero actual
+	int p_columna_actual;       // Coordenada columna del nÃºmero actual
+	bool turno;                 // Identifica a quÃ© usuario le toca jugar
 	int seg;                    // Segundos del contador de 15 minutos
 	int min;                    // Minutos del contador de 15 minutos
 };
 
 // == PROTOTIPOS DE LAS FUNCIONES ==
 
-// Muestra el menú del juego, para que los usuarios puedan interactuar con las opciones disponibles
+// Muestra el menÃº del juego, para que los usuarios puedan interactuar con las opciones disponibles
 void menu();
 
-// Muestra la interfaz del menú
+// Muestra la interfaz del menÃº
 void titulo();
 
 // Prepara la partida
 void configuracion_de_juego();
 
-// Identifica y muestra en pantalla quién será el primer jugador
+// Identifica y muestra en pantalla quiÃ©n serÃ¡ el primer jugador
 bool m_primer_jugador(Jugador jb, Jugador ja, int p_fila_actual, int p_columna_actual);
 
-// Mete los números y las x's en la matriz de forma ordenada
+// Mete los nÃºmeros y las x's en la matriz de forma ordenada
 void meter_numero(int tabla[FILAS][COLUMNAS], int n_actual, int &p_fila_actual, int &p_columna_actual);
 
 // Escribe en un archivo todos los datos relevantes de la partida
@@ -74,7 +74,7 @@ void escribir_en_archivo(Partida partida);
 // Comienza la partida
 void juego();
 
-// Verifica si fueron ingresados todos los números posibles por partida
+// Verifica si fueron ingresados todos los nÃºmeros posibles por partida
 bool verificar_jugadas(int *&jugadas, int longitud);
 
 // Imprime en pantalla el tablero de juego
@@ -83,28 +83,28 @@ void imprimir_tabla(int tabla[FILAS][COLUMNAS]);
 // Imprime en pantalla los datos del jugador actual
 void imprimir_datos(bool jugador, Jugador jb, Jugador ja);
 
-// Disminuye el tamaño de un arreglo dinámico de caracteres
+// Disminuye el tamaÃ±o de un arreglo dinÃ¡mico de caracteres
 void disminuir_arreglo_char(char *&entradas, int &l_entradas);
 
-// Aumenta el tamaño de un arreglo dinámico de caracteres
+// Aumenta el tamaÃ±o de un arreglo dinÃ¡mico de caracteres
 void agrandar_arreglo_char(char *&entradas, int &l_entradas);
 
-// Imprime al jugador que ganó la partida, si no hay ganador, se imprime un mensaje de empate
+// Imprime al jugador que ganÃ³ la partida, si no hay ganador, se imprime un mensaje de empate
 void imprimir_ganador(Jugador jb, Jugador ja, int min);
 
 // Imprime al jugador contrario al actual como ganador
 void imprimir_ganador_contrario(Jugador jb, Jugador ja, bool jugador);
 
-// Comprueba si el número ingresado por el usuario cumple la condición de inserción
+// Comprueba si el nÃºmero ingresado por el usuario cumple la condiciÃ³n de inserciÃ³n
 bool condicion_de_insercion(int n_actual, int *&jugadas, int &longitud);
 
-// Aumenta el tamaño de un arreglo dinámico de enteros
+// Aumenta el tamaÃ±o de un arreglo dinÃ¡mico de enteros
 void agrandar_arreglo_int(int *&jugadas, int &longitud);
 
-// Compara dos elementos. Es necesario para ordenar un vector con la función qsort
+// Compara dos elementos. Es necesario para ordenar un vector con la funciÃ³n qsort
 int cmpfunc(const void *a, const void *b);
 
-// Información referente al juego
+// InformaciÃ³n referente al juego
 void acerca_del_juego();
 
 // Preguntas frecuentes
@@ -113,32 +113,32 @@ void ayuda();
 // Pintar elementos en pantalla
 void color(int n);
 
-// Mueve el cursor a una coordenada específica
+// Mueve el cursor a una coordenada especÃ­fica
 void gotoxy(int X, int Y);
 
 using namespace std;
 
 // == FUNCIONES ==
 
-// Función principal
+// FunciÃ³n principal
 int main()
 {
-	// Posibilitar el uso de caracteres especiales del idioma español
+	// Posibilitar el uso de caracteres especiales del idioma espaÃ±ol
 	setlocale(LC_CTYPE, "Spanish");
-    SetConsoleCP(1252);
+        SetConsoleCP(1252);
 	SetConsoleOutputCP(1252);
 
-	// Cambiar el título de la ventana por el nombre del juego
+	// Cambiar el tÃ­tulo de la ventana por el nombre del juego
 	SetConsoleTitleA("Juego de Euclides");
     
-	// Abrir el menú de opciones
+	// Abrir el menÃº de opciones
 	menu();
 	
 	return 0;
 }
 
 
-// Función menú
+// FunciÃ³n menÃº
 void menu()
 {
     int menu = 0;
@@ -146,10 +146,10 @@ void menu()
 
     do
     {
-		// Mostrar la interfaz del menú
+		// Mostrar la interfaz del menÃº
         titulo();
         
-		// Almacenar la opción escogida por el usuario
+		// Almacenar la opciÃ³n escogida por el usuario
         cin >> opcion;
         fflush(stdin);
 
@@ -185,9 +185,9 @@ void menu()
                 menu = 1;
 			    break;
 
-            default: // Mostrar mensaje en caso de equivocación
+            default: // Mostrar mensaje en caso de equivocaciÃ³n
                 system("cls");
-                cout << "\n\t\t\t\t     -Opción Incorrecta - Intente Nuevamente-\n\n";
+                cout << "\n\t\t\t\t     -OpciÃ³n Incorrecta - Intente Nuevamente-\n\n";
                 system("pause");
         }
 
@@ -196,7 +196,7 @@ void menu()
 }
 
 
-// Función tí­tulo
+// FunciÃ³n tÃ­Â­tulo
 void titulo()
 {
     cout <<"       ___________________________________________________________________________________________\n\n\n";
@@ -219,11 +219,11 @@ void titulo()
 	
 	color(7); // Color blanco
 	cout << "       ___________________________________________________________________________________________\n";
-    cout << "\n       Opción (número) --> "; 
+    cout << "\n       OpciÃ³n (nÃºmero) --> "; 
 }
 
 
-// Función configuracion_de_juego
+// FunciÃ³n configuracion_de_juego
 void configuracion_de_juego()
 {
 	system("cls");
@@ -260,11 +260,11 @@ void configuracion_de_juego()
 		}
 	}
 
-	// Generar los dos números aleatorios
+	// Generar los dos nÃºmeros aleatorios
 	partida.n_actual = 1+(rand()%NUMEROS);
 	int n_aux = 1+(rand()%NUMEROS);
 
-	// Evitar que los números se repitan y que no se puedan realizar jugadas
+	// Evitar que los nÃºmeros se repitan y que no se puedan realizar jugadas
 	do
 	{
 		if ((partida.n_actual == n_aux) || ((partida.n_actual == 1 && n_aux == 2) || (partida.n_actual == 2 && n_aux == 1)))
@@ -273,7 +273,7 @@ void configuracion_de_juego()
 		}
 	} while ((partida.n_actual == n_aux) || ((partida.n_actual == 1 && n_aux == 2) || (partida.n_actual == 2 && n_aux == 1)));
 
-	// Se meten los números en el arreglo de jugadas en orden ascendente, y se almacena el número mayor en una variable
+	// Se meten los nÃºmeros en el arreglo de jugadas en orden ascendente, y se almacena el nÃºmero mayor en una variable
 	if (partida.n_actual < n_aux)
 	{
 	    partida.jugadas[0] = partida.n_actual;
@@ -285,16 +285,16 @@ void configuracion_de_juego()
 	    partida.jugadas[1] = partida.n_actual;
 	}
 
-    // Generar la posición del primer número
+    // Generar la posiciÃ³n del primer nÃºmero
 	partida.p_fila_actual = rand()%FILAS, partida.p_columna_actual = rand()%COLUMNAS;
 
-	// Meter el primer número en la tabla
+	// Meter el primer nÃºmero en la tabla
 	partida.tabla[partida.p_fila_actual][partida.p_columna_actual] = partida.n_actual;
 
-	// Mostrar quien es el primer jugador a partir de la posición del primer número
+	// Mostrar quien es el primer jugador a partir de la posiciÃ³n del primer nÃºmero
 	partida.turno = m_primer_jugador(partida.jb, partida.ja, partida.p_fila_actual, partida.p_columna_actual);
 
-	// Meter el segundo número en la tabla
+	// Meter el segundo nÃºmero en la tabla
 	partida.n_actual = n_aux;
 	meter_numero(partida.tabla, partida.n_actual, partida.p_fila_actual, partida.p_columna_actual);
    
@@ -303,44 +303,44 @@ void configuracion_de_juego()
 }
 
 
-// Función m_primer_jugador
+// FunciÃ³n m_primer_jugador
 bool m_primer_jugador(Jugador jb, Jugador ja, int p_fila_actual, int p_columna_actual)
 {
     system("cls");
 
 	cout << "       ___________________________________________________________________________________________\n\n\n\t\t\t\t       ";
     
-	if ((p_fila_actual % 2 == 0) && (p_columna_actual % 2 == 0)) // Si la fila es par y la columna es par, el primer jugador será el blanco
+	if ((p_fila_actual % 2 == 0) && (p_columna_actual % 2 == 0)) // Si la fila es par y la columna es par, el primer jugador serÃ¡ el blanco
     {
         color(15); cout << jb.nombre; color(7);
-        cout << " será el primer jugador." << endl;
+        cout << " serÃ¡ el primer jugador." << endl;
         cout << "\n       ___________________________________________________________________________________________\n\n\t";
         system("pause");
         return FALSE;
     }
 
-    if ((p_fila_actual % 2 != 0) && (p_columna_actual % 2 != 0))  // Si la fila es impar y la columna es impar, el primer jugador será el blanco
+    if ((p_fila_actual % 2 != 0) && (p_columna_actual % 2 != 0))  // Si la fila es impar y la columna es impar, el primer jugador serÃ¡ el blanco
     {
         color(15); cout << jb.nombre; color(7);
-        cout << " será el primer jugador." << endl;
+        cout << " serÃ¡ el primer jugador." << endl;
         cout << "\n       ___________________________________________________________________________________________\n\n\t";
         system("pause");
         return FALSE;
     }
 
-    if ((p_fila_actual % 2 == 0) && (p_columna_actual % 2 != 0)) // Si la fila es par y la columna es impar, el primer jugador será el azul
+    if ((p_fila_actual % 2 == 0) && (p_columna_actual % 2 != 0)) // Si la fila es par y la columna es impar, el primer jugador serÃ¡ el azul
     {
         color(11); cout << ja.nombre; color(7); 
-		cout << " será el primer jugador." << endl;
+		cout << " serÃ¡ el primer jugador." << endl;
 		cout << "\n       ___________________________________________________________________________________________\n\n\t";
         system("pause");
         return TRUE;
     }
 
-    if ((p_fila_actual % 2 != 0) && (p_columna_actual % 2 == 0)) // Si la fila es impar y la columna es par, el primer jugador será el azul
+    if ((p_fila_actual % 2 != 0) && (p_columna_actual % 2 == 0)) // Si la fila es impar y la columna es par, el primer jugador serÃ¡ el azul
     {
         color(11); cout << ja.nombre; color(7); 
-		cout << " será el primer jugador." << endl;
+		cout << " serÃ¡ el primer jugador." << endl;
 		cout << "\n       ___________________________________________________________________________________________\n\n\t";
         system("pause");
         return TRUE;
@@ -348,7 +348,7 @@ bool m_primer_jugador(Jugador jb, Jugador ja, int p_fila_actual, int p_columna_a
 }
 
 
-// Función meter_numeros
+// FunciÃ³n meter_numeros
 void meter_numero(int tabla[FILAS][COLUMNAS], int n_actual, int &p_fila_actual, int &p_columna_actual)
 {
     if ((p_fila_actual % 2 == 0) && (p_columna_actual < COLUMNAS-1))
@@ -425,13 +425,13 @@ void meter_numero(int tabla[FILAS][COLUMNAS], int n_actual, int &p_fila_actual, 
 }
 
 
-// Función escribir_en_archivo
+// FunciÃ³n escribir_en_archivo
 void escribir_en_archivo(Partida partida)
 {
-	// Creación de archivo para escritura
+	// CreaciÃ³n de archivo para escritura
     FILE *ptrfile = fopen("datos_de_partida.bin", "wb");
 
-    // Comprobar si se creó el archivo correctamente
+    // Comprobar si se creÃ³ el archivo correctamente
 	if (ptrfile == NULL)
 	{
 		cout << "No se pudo crear el archivo" << endl;
@@ -472,7 +472,7 @@ void escribir_en_archivo(Partida partida)
 }
 
 
-// Función juego
+// FunciÃ³n juego
 void juego()
 {
 	// Crear variables locales necesarias para la partida
@@ -487,7 +487,7 @@ void juego()
 	// Se abre el archivo para lectura
     FILE *ptrfile = fopen("datos_de_partida.bin", "rb");
 
-    // Comprobar si se abrió el archivo correctamente
+    // Comprobar si se abriÃ³ el archivo correctamente
 	if (ptrfile == NULL)
 	{
 		system("cls");
@@ -548,7 +548,7 @@ void juego()
 			delete[] partida.jugadas;
 			imprimir_tabla(partida.tabla);
             color(10);
-            cout << "\n\t\t\t      == No se pueden realizar más movimientos. ==\n";
+            cout << "\n\t\t\t      == No se pueden realizar mÃ¡s movimientos. ==\n";
             color(7);
             imprimir_ganador(partida.jb, partida.ja, partida.min);
             break;
@@ -562,7 +562,7 @@ void juego()
 		int seg = 14, milseg = 1000;
 		tiempo = GetTickCount();
 		
-        verificar_seg = GetTickCount()+16000; // GetTickCount() devuelve el número de milisegundos desde que se inició el sistema
+        verificar_seg = GetTickCount()+16000; // GetTickCount() devuelve el nÃºmero de milisegundos desde que se iniciÃ³ el sistema
 		
 		while ((verificar_seg > GetTickCount()))
         {
@@ -619,16 +619,16 @@ void juego()
 				color(7);	
             }
 
-            // Se comprueba constantemente si el jugador presionó una tecla
-        	if (kbhit()) // khbit() [conio.h] es una función que sirve para determinar si se presionó una tecla o no.
+            // Se comprueba constantemente si el jugador presionÃ³ una tecla
+        	if (kbhit()) // khbit() [conio.h] es una funciÃ³n que sirve para determinar si se presionÃ³ una tecla o no.
         	{
 				gotoxy(34,28);
 				aux = getch();
                 
-				// En partida solo se acepta el uso de números, enter y backspace
+				// En partida solo se acepta el uso de nÃºmeros, enter y backspace
 				if ((int)aux == 13 || (int(aux) >= 48 && int(aux) <= 57) || int(aux) == 8)
 				{
-                    if ((int)aux != 13 && int(aux) != 8 && l_entradas == 1) //Si colocas un dígito cuando no hay nada, se reserva espacio y se mete en el arreglo
+                    if ((int)aux != 13 && int(aux) != 8 && l_entradas == 1) //Si colocas un dÃ­gito cuando no hay nada, se reserva espacio y se mete en el arreglo
 					{
 						entradas = new char[l_entradas];
 						agrandar_arreglo_char(entradas, l_entradas);
@@ -636,7 +636,7 @@ void juego()
 
 						cout << entradas[l_entradas-2];
 					}
-					else if ((int)aux != 13 && int(aux) != 8 && l_entradas > 1) //Si colocas un dígito cuando ya hay otro, se agranda el arreglo y se coloca el otro
+					else if ((int)aux != 13 && int(aux) != 8 && l_entradas > 1) //Si colocas un dÃ­gito cuando ya hay otro, se agranda el arreglo y se coloca el otro
 					{
                         agrandar_arreglo_char(entradas, l_entradas);
 						entradas[l_entradas-2] = aux;
@@ -646,7 +646,7 @@ void juego()
 							cout << entradas[i];
 						}
 					}
-					else if ((int)aux == 8 && l_entradas > 1) //Si colocas un backspace y hay números, se borrará el último dígito insertado
+					else if ((int)aux == 8 && l_entradas > 1) //Si colocas un backspace y hay nÃºmeros, se borrarÃ¡ el Ãºltimo dÃ­gito insertado
 					{	
 						disminuir_arreglo_char(entradas, l_entradas);                     
 
@@ -660,7 +660,7 @@ void juego()
 
 						cout << ' ' << "\b";
 					}
-					else if ((int)aux == 13 && l_entradas > 1) // Si colocas un enter y hay números, entonces el arreglo se convierte a entero y se mete en la variable
+					else if ((int)aux == 13 && l_entradas > 1) // Si colocas un enter y hay nÃºmeros, entonces el arreglo se convierte a entero y se mete en la variable
 					{
                         partida.n_actual = atoi(entradas);
 						delete[] entradas;
@@ -678,22 +678,22 @@ void juego()
 			system("cls");
 			imprimir_tabla(partida.tabla);
             color(10);
-            cout << "\n\t\t\t\t        == Se agotó el tiempo ==\n\n\t\t\t\t\t   Pasaron 15 segundos\n";
+            cout << "\n\t\t\t\t        == Se agotÃ³ el tiempo ==\n\n\t\t\t\t\t   Pasaron 15 segundos\n";
             color(7);
 	        imprimir_ganador_contrario(partida.jb, partida.ja,partida.turno);
 			break;
         }
 	
-	    if (partida.n_actual < 1 || partida.n_actual > NUMEROS) // Si se ingresa un número incorrecto, el jugador pierde una casilla
+	    if (partida.n_actual < 1 || partida.n_actual > NUMEROS) // Si se ingresa un nÃºmero incorrecto, el jugador pierde una casilla
 	    {
 	        partida.n_actual = XX;
 	    }
 	    else
 	    {
-			// Se revisa el número que ingresó el jugador
+			// Se revisa el nÃºmero que ingresÃ³ el jugador
 	        bool confirmacion = condicion_de_insercion(partida.n_actual, partida.jugadas, partida.longitud);
 	
-	        if (confirmacion == TRUE) // Si el número ingresado cumple con la condición de inserción, el jugador gana un punto
+	        if (confirmacion == TRUE) // Si el nÃºmero ingresado cumple con la condiciÃ³n de inserciÃ³n, el jugador gana un punto
 	        {
 	            if (partida.turno == TRUE)
 	            {
@@ -704,28 +704,28 @@ void juego()
 	                partida.jb.puntos++;
 	            }
 	        }
-	        else // Si se ingresa un número que no cumple con la condición, el jugador pierde una casilla
+	        else // Si se ingresa un nÃºmero que no cumple con la condiciÃ³n, el jugador pierde una casilla
 	        {
 	            partida.n_actual = XX;
 	        }
 	    }
 	        
-	    // Se mete el número en la tabla y aumenta el número de elementos en la misma
+	    // Se mete el nÃºmero en la tabla y aumenta el nÃºmero de elementos en la misma
 	    meter_numero(partida.tabla, partida.n_actual, partida.p_fila_actual, partida.p_columna_actual);
 	    partida.n_elementos++;
 		
-	    if (partida.n_elementos == NUMEROS) // Si se terminan las casillas, gana el jugador que tenga más puntos
+	    if (partida.n_elementos == NUMEROS) // Si se terminan las casillas, gana el jugador que tenga mÃ¡s puntos
 	    {
 			remove("datos_de_partida.bin");
 			delete[] partida.jugadas;
 			imprimir_tabla(partida.tabla);
             color(10);
-            cout << "\n\t\t\t\t     == El tablero ya está lleno. ==\n";
+            cout << "\n\t\t\t\t     == El tablero ya estÃ¡ lleno. ==\n";
             color(7);
 	        imprimir_ganador(partida.jb, partida.ja, partida.min);
 			break;	            
 	    }		
-	    else // Si aún quedan casillas, comienza el turno del siguiente jugador
+	    else // Si aÃºn quedan casillas, comienza el turno del siguiente jugador
 	    {
 	        partida.turno = !partida.turno;
             escribir_en_archivo(partida);
@@ -733,21 +733,21 @@ void juego()
 
 	} while(partida.min != 15);
 	
-	if (partida.min == 15) // Si pasan 15 minutos y el juego no ha terminado, gana el jugador que tenga más puntos
+	if (partida.min == 15) // Si pasan 15 minutos y el juego no ha terminado, gana el jugador que tenga mÃ¡s puntos
 	{
 		remove("datos_de_partida.bin");
 		delete[] partida.jugadas;
 		system("cls");
 		imprimir_tabla(partida.tabla);
         color(10);
-        cout << "\n\t\t\t\t        == Se agotó el tiempo ==\n\n\t\t\t\t\t   Pasaron 15 minutos\n";
+        cout << "\n\t\t\t\t        == Se agotÃ³ el tiempo ==\n\n\t\t\t\t\t   Pasaron 15 minutos\n";
         color(7);
 	    imprimir_ganador(partida.jb, partida.ja, partida.min);
 	}
 }
 
 
-// Función verificar_jugadas
+// FunciÃ³n verificar_jugadas
 bool verificar_jugadas(int *&jugadas, int longitud)
 {
 	int cont = 0, comp = 0;
@@ -771,16 +771,16 @@ bool verificar_jugadas(int *&jugadas, int longitud)
 		}
 	}
 
-	if (cont == comp) // No hay más movimientos posibles
+	if (cont == comp) // No hay mÃ¡s movimientos posibles
 	{
         return TRUE;
 	}
 
-	return FALSE; // Hay más movimientos posibles
+	return FALSE; // Hay mÃ¡s movimientos posibles
 }
 
 
-// Función imprimir_tabla
+// FunciÃ³n imprimir_tabla
 void imprimir_tabla(int tabla[FILAS][COLUMNAS])
 {
 	system("cls");
@@ -795,25 +795,25 @@ void imprimir_tabla(int tabla[FILAS][COLUMNAS])
 
 		for (int j = 0; j < COLUMNAS; j++)
 		{
-			if (((i+1) + (j)) % 2 == 0)              // Condición para mostrar las casillas azules
+			if (((i+1) + (j)) % 2 == 0)              // CondiciÃ³n para mostrar las casillas azules
 				color(176);
 
-            else                                     // Condición para mostrar las casillas blancas
+            else                                     // CondiciÃ³n para mostrar las casillas blancas
 				color(240);
 
-            if (tabla[i][j] == XX)                   // Condición para mostrar las x's
+            if (tabla[i][j] == XX)                   // CondiciÃ³n para mostrar las x's
                 cout << " XX ";
             
-            if (tabla[i][j] == 0)                    // Condición para mostrar los espacios vacíos
+            if (tabla[i][j] == 0)                    // CondiciÃ³n para mostrar los espacios vacÃ­os
                 cout << "    ";  
 
-			if (tabla[i][j] > 0 && tabla[i][j] < 10) // Condición para mostrar los números menores a 10
+			if (tabla[i][j] > 0 && tabla[i][j] < 10) // CondiciÃ³n para mostrar los nÃºmeros menores a 10
 				cout << " 0" << tabla[i][j] << " ";
 			
-            else if (tabla[i][j] > 9)                // Condición para mostrar los números mayores a 10
+            else if (tabla[i][j] > 9)                // CondiciÃ³n para mostrar los nÃºmeros mayores a 10
 				cout << " " << tabla[i][j] << " ";  
 
-			if (j == COLUMNAS-1)                     // Condición para imprimir la siguiente fila
+			if (j == COLUMNAS-1)                     // CondiciÃ³n para imprimir la siguiente fila
 	        	cout << "\n";			
 		}    
 	}
@@ -823,7 +823,7 @@ void imprimir_tabla(int tabla[FILAS][COLUMNAS])
 }
 
 
-// Función imprimir_datos
+// FunciÃ³n imprimir_datos
 void imprimir_datos(bool jugador, Jugador jb, Jugador ja)
 {
     cout << "\n\n";
@@ -860,11 +860,11 @@ void imprimir_datos(bool jugador, Jugador jb, Jugador ja)
     cout << "\n\n";
     cout << "       ___________________________________________________________________________________________\n\n";
 
-	cout << "       Ingrese número a jugar --> ";	
+	cout << "       Ingrese nÃºmero a jugar --> ";	
 }
 
 
-// Función agrandar_arreglo_char
+// FunciÃ³n agrandar_arreglo_char
 void agrandar_arreglo_char(char *&entradas, int &l_entradas)
 {
     l_entradas++;
@@ -884,7 +884,7 @@ void agrandar_arreglo_char(char *&entradas, int &l_entradas)
 }
 
 
-// Función disminuir_arreglo_char
+// FunciÃ³n disminuir_arreglo_char
 void disminuir_arreglo_char(char *&entradas, int &l_entradas)
 {    
 	l_entradas--;
@@ -909,7 +909,7 @@ void disminuir_arreglo_char(char *&entradas, int &l_entradas)
 }
 
 
-// Función imprimir_ganador
+// FunciÃ³n imprimir_ganador
 void imprimir_ganador(Jugador jb, Jugador ja, int min)
 {
 	int Y = 25; // Coordenada de la funcion gotoxy
@@ -967,7 +967,7 @@ void imprimir_ganador(Jugador jb, Jugador ja, int min)
 }
 
 
-// Función imprimir_ganador_contrario
+// FunciÃ³n imprimir_ganador_contrario
 void imprimir_ganador_contrario(Jugador jb, Jugador ja, bool jugador)
 {
 	
@@ -1011,14 +1011,14 @@ void imprimir_ganador_contrario(Jugador jb, Jugador ja, bool jugador)
 }
 
 
-// Función condición_de_insercion
+// FunciÃ³n condiciÃ³n_de_insercion
 bool condicion_de_insercion(int n_actual, int *&jugadas, int &longitud)
 {
     for (int i = longitud-1; i >= 1; i--)
     {
         for (int j = longitud-2; j >= 0; j--)
         {
-            if ((jugadas[i] - jugadas[j]) == n_actual) // Si se cumple la condición, se comprobará que no hay números repetidos
+            if ((jugadas[i] - jugadas[j]) == n_actual) // Si se cumple la condiciÃ³n, se comprobarÃ¡ que no hay nÃºmeros repetidos
             {
                 int cont = 0;
 
@@ -1030,7 +1030,7 @@ bool condicion_de_insercion(int n_actual, int *&jugadas, int &longitud)
                     }
                 }
 
-                if (cont == longitud) // Si no hay números repetidos, se devuelve TRUE
+                if (cont == longitud) // Si no hay nÃºmeros repetidos, se devuelve TRUE
                 {
                     agrandar_arreglo_int(jugadas, longitud);
                     jugadas[longitud-1] = n_actual;
@@ -1045,7 +1045,7 @@ bool condicion_de_insercion(int n_actual, int *&jugadas, int &longitud)
 }
 
 
-// Función agrandar_arreglo_int
+// FunciÃ³n agrandar_arreglo_int
 void agrandar_arreglo_int(int *&jugadas, int &longitud)
 {
     longitud++;
@@ -1063,14 +1063,14 @@ void agrandar_arreglo_int(int *&jugadas, int &longitud)
 }
 
 
-// Función cmpfunc
+// FunciÃ³n cmpfunc
 int cmpfunc(const void *a, const void *b)
 {
 	return (*(int*)a - *(int*)b);
 }
 
 
-//Función acerca_del_juego
+//FunciÃ³n acerca_del_juego
 void acerca_del_juego() 
 {
     char opcion;
@@ -1084,13 +1084,13 @@ void acerca_del_juego()
 		cout << "\t\t\t\t          = ACERCA DEL JUEGO =\n\n\n";
 		
 		color(14);
-		cout << "\t\t\t\t\t    1. Descripción\n\n\n";
+		cout << "\t\t\t\t\t    1. DescripciÃ³n\n\n\n";
 		cout << "\t\t\t\t\t    2. Credenciales\n\n\n";
-		cout << "\t\t\t\t\t    3. Regresar al menú\n\n";
+		cout << "\t\t\t\t\t    3. Regresar al menÃº\n\n";
 		
 		color(7);
 		cout << "       ___________________________________________________________________________________________\n";
-	    cout << "\n       Opción (número) --> "; 
+	    cout << "\n       OpciÃ³n (nÃºmero) --> "; 
 		
 		cin >> opcion;
     	fflush(stdin);
@@ -1102,15 +1102,15 @@ void acerca_del_juego()
 	        	cout << "       ___________________________________________________________________________________________\n\n\n";
 				
 				color(6);
-				cout << "\t\t\t\t\t= DESCRIPCIÓN DEL JUEGO =\n\n";
+				cout << "\t\t\t\t\t= DESCRIPCIÃ“N DEL JUEGO =\n\n";
 				color(7);
 							
-				cout << "\n\t Es  un  juego  cuyo  nombre  hace  referencia  al matemático y geómetra griego Euclides" << endl;
+				cout << "\n\t Es  un  juego  cuyo  nombre  hace  referencia  al matemÃ¡tico y geÃ³metra griego Euclides" << endl;
 				cout << "\t (ca. 325 a. C.-ca. 265 a. C), el cual consiste en un tablero  de  (8x8), en  donde  dos" << endl;
-				cout << "\t jugadores deben colocar dos números enteros positivos desiguales (distintos) del  1  al" << endl;
-				cout << "\t 64 e ir creando combinaciones de diferencias o restas entre los  números  indicados  en" << endl;
-				cout << "\t el tablero. Se debe sortear qué participante será el primero  en  jugar y gana  el  que" << endl;
-				cout << "\t tenga más casillas correctas.\n" << endl;
+				cout << "\t jugadores deben colocar dos nÃºmeros enteros positivos desiguales (distintos) del  1  al" << endl;
+				cout << "\t 64 e ir creando combinaciones de diferencias o restas entre los  nÃºmeros  indicados  en" << endl;
+				cout << "\t el tablero. Se debe sortear quÃ© participante serÃ¡ el primero  en  jugar y gana  el  que" << endl;
+				cout << "\t tenga mÃ¡s casillas correctas.\n" << endl;
 							
 				cout << "       ___________________________________________________________________________________________\n\n\t";
 	        	system("pause");
@@ -1127,7 +1127,7 @@ void acerca_del_juego()
 				cout << "\n\t\t\t\t      - ";
 				
 				color(12);
-				cout << "DISEÑO: " << endl;
+				cout << "DISEÃ‘O: " << endl;
 				
 				color(7);
 				cout << "\n\t\t\t\t\t    1. Antonietta Palazzo\n\t\t\t\t\t    2. Valery Medina\n\t\t\t\t\t    3. Gipsy Anaya\n\n";
@@ -1139,7 +1139,7 @@ void acerca_del_juego()
 				cout << "DESARROLLO: " << endl;
 				
 				color(7);
-				cout << "\n\t\t\t\t\t    1. Sebastián Landaeta\n\t\t\t\t\t    2. Antonietta Palazzo\n\t\t\t\t\t    3. Valery Medina\n\n";
+				cout << "\n\t\t\t\t\t    1. SebastiÃ¡n Landaeta\n\t\t\t\t\t    2. Antonietta Palazzo\n\t\t\t\t\t    3. Valery Medina\n\n";
 				
 				cout << "       ___________________________________________________________________________________________\n\n\t";
 				system("pause");
@@ -1151,7 +1151,7 @@ void acerca_del_juego()
 	
 	        default:
 	            system("cls");
-	            cout << "\n\t\t\t\t     -Opción Incorrecta - Intente Nuevamente-\n\n";
+	            cout << "\n\t\t\t\t     -OpciÃ³n Incorrecta - Intente Nuevamente-\n\n";
 	            system("pause");
     	}
     	
@@ -1160,7 +1160,7 @@ void acerca_del_juego()
 }
 
 
-//Función ayuda
+//FunciÃ³n ayuda
 void ayuda() 
 {
     char opcion;
@@ -1174,19 +1174,19 @@ void ayuda()
 		cout << "\t\t\t\t\t\t  = AYUDA =\n\n\n";
 		
 		color(14);
-		cout << "\t\t\t\t1. Cómo iniciar una partida\n\n\n";
-		cout << "\t\t\t\t2. Cómo jugar\n\n\n";
-		cout << "\t\t\t\t3. Cuánto tiempo dura una partida\n\n\n";
-		cout << "\t\t\t\t4. Qué significa cuando la casilla marca dos X\n\n\n";
-		cout << "\t\t\t\t5. Cómo ganar\n\n\n";
-		cout << "\t\t\t\t6. Ya no tengo más combinaciones\n\n\n";
-		cout << "\t\t\t\t7. Cómo culmino el juego\n\n\n";
+		cout << "\t\t\t\t1. CÃ³mo iniciar una partida\n\n\n";
+		cout << "\t\t\t\t2. CÃ³mo jugar\n\n\n";
+		cout << "\t\t\t\t3. CuÃ¡nto tiempo dura una partida\n\n\n";
+		cout << "\t\t\t\t4. QuÃ© significa cuando la casilla marca dos X\n\n\n";
+		cout << "\t\t\t\t5. CÃ³mo ganar\n\n\n";
+		cout << "\t\t\t\t6. Ya no tengo mÃ¡s combinaciones\n\n\n";
+		cout << "\t\t\t\t7. CÃ³mo culmino el juego\n\n\n";
 		cout << "\t\t\t\t8. Tip\n\n\n";
-		cout << "\t\t\t\t9. Regresar al menú\n\n";
+		cout << "\t\t\t\t9. Regresar al menÃº\n\n";
 		
 		color(7);
 		cout << "       ___________________________________________________________________________________________\n";
-	    cout << "\n       Opción (número) --> "; 
+	    cout << "\n       OpciÃ³n (nÃºmero) --> "; 
 		
 		cin >> opcion;
     	fflush(stdin);
@@ -1198,15 +1198,15 @@ void ayuda()
 	        	cout << "       ___________________________________________________________________________________________\n\n\n";
 				
 				color(6);
-				cout << "\t\t\t\t\t = CÓMO INICIAR UNA PARTIDA =\n\n";
+				cout << "\t\t\t\t\t = CÃ“MO INICIAR UNA PARTIDA =\n\n";
 				color(7);
 
-				cout << "\n\t  Al iniciar el programa, en el menú aparecerá la opción \"Nueva partida\". En  ella,  se" << endl;
-				cout << "\t  le pedirá a los usuarios ingresar sus nombres (la elección  del  color queda de parte" << endl;
-				cout << "\t  de los jugadores), y una vez hecho eso, se elegirá al azar cual de los  dos  será  el" << endl;
+				cout << "\n\t  Al iniciar el programa, en el menÃº aparecerÃ¡ la opciÃ³n \"Nueva partida\". En  ella,  se" << endl;
+				cout << "\t  le pedirÃ¡ a los usuarios ingresar sus nombres (la elecciÃ³n  del  color queda de parte" << endl;
+				cout << "\t  de los jugadores), y una vez hecho eso, se elegirÃ¡ al azar cual de los  dos  serÃ¡  el" << endl;
 				cout << "\t  primer jugador para, posteriormente, empezar la partida. En caso  de  haber  empezado" << endl;
 				cout << "\t  una partida y haber cerrado el juego, los jugadores pueden  continuarla  selecionando" << endl;
-				cout << "\t  la opción \"Cargar Partida\" disponible en el menú.\n" << endl;
+				cout << "\t  la opciÃ³n \"Cargar Partida\" disponible en el menÃº.\n" << endl;
 
 				cout << "       ___________________________________________________________________________________________\n\n\t";	
 	        	system("pause");
@@ -1217,16 +1217,16 @@ void ayuda()
 				cout << "       ___________________________________________________________________________________________\n\n\n";
 				
 				color(6);
-				cout << "\t\t\t\t\t      = CÓMO JUGAR =\n\n";
+				cout << "\t\t\t\t\t      = CÃ“MO JUGAR =\n\n";
 				color(7);
 				
-				cout << "\n\t  Por turnos, cada jugador debe ingresar un  número  que  sea  igual  a  la  diferencia" << endl;
-				cout << "\t  positiva de dos números que se encuentren en la tabla, la cual, tiene  una  dimensión" << endl;
-				cout << "\t  de (8x8) y comienza con dos números enteros  positivos  y  distintos.  No  se  pueden" << endl;
-				cout << "\t  repetir números y el número a ingresar debe estar entre 1 y 64." << endl;
+				cout << "\n\t  Por turnos, cada jugador debe ingresar un  nÃºmero  que  sea  igual  a  la  diferencia" << endl;
+				cout << "\t  positiva de dos nÃºmeros que se encuentren en la tabla, la cual, tiene  una  dimensiÃ³n" << endl;
+				cout << "\t  de (8x8) y comienza con dos nÃºmeros enteros  positivos  y  distintos.  No  se  pueden" << endl;
+				cout << "\t  repetir nÃºmeros y el nÃºmero a ingresar debe estar entre 1 y 64." << endl;
 
-				cout << "\n\t  Por ejemplo:  (63 - 58) = 5,  (58 - 5) = 53,  (63 - 53) = 10..., y  así sucesivamente" << endl;
-				cout << "\t  hasta que ya no se obtengan nuevos números.\n" << endl;
+				cout << "\n\t  Por ejemplo:  (63 - 58) = 5,  (58 - 5) = 53,  (63 - 53) = 10..., y  asÃ­ sucesivamente" << endl;
+				cout << "\t  hasta que ya no se obtengan nuevos nÃºmeros.\n" << endl;
 							
 				cout << "       ___________________________________________________________________________________________\n\n\t";
 				system("pause");
@@ -1237,12 +1237,12 @@ void ayuda()
 				cout << "       ___________________________________________________________________________________________\n\n\n";
 				
 				color(6);
-				cout << "\t\t\t             = CUÁNTO TIEMPO DURA UNA PARTIDA =\n\n";
+				cout << "\t\t\t             = CUÃNTO TIEMPO DURA UNA PARTIDA =\n\n";
 				color(7);
 
-				cout << "\n\t  Cada partida puede durar máximo 15 minutos. Pasado  ese  tiempo,  ganará  el  jugador" << endl;
-				cout << "\t  que más puntos haya obtenido. Los jugadores tienen un  máximo  de  15  segundos  para" << endl;
-				cout << "\t  realizar una  jugada, y en caso  de  no  hacerlo,  se  nombrará  ganador  al  jugador" << endl;
+				cout << "\n\t  Cada partida puede durar mÃ¡ximo 15 minutos. Pasado  ese  tiempo,  ganarÃ¡  el  jugador" << endl;
+				cout << "\t  que mÃ¡s puntos haya obtenido. Los jugadores tienen un  mÃ¡ximo  de  15  segundos  para" << endl;
+				cout << "\t  realizar una  jugada, y en caso  de  no  hacerlo,  se  nombrarÃ¡  ganador  al  jugador" << endl;
 				cout << "\t  contrario.\n" << endl;
 							
 				cout << "       ___________________________________________________________________________________________\n\n\t";
@@ -1254,16 +1254,16 @@ void ayuda()
 				cout << "       ___________________________________________________________________________________________\n\n\n";
 				
 				color(6);
-				cout << "\t\t\t      = QUÉ SIGNIFICA CUANDO LA CASILLA MARCA DOS X =\n\n";
+				cout << "\t\t\t      = QUÃ‰ SIGNIFICA CUANDO LA CASILLA MARCA DOS X =\n\n";
 				color(7);
 
-				cout << "\n\t  Al colocar un número que no cumpla con  las  condiciones  descritas  en  la  sección:" << endl;
-				cout << "\t  \"Cómo jugar\" se marcará esa casilla con  dos  X, denotando que el jugador  perdió  la" << endl;
+				cout << "\n\t  Al colocar un nÃºmero que no cumpla con  las  condiciones  descritas  en  la  secciÃ³n:" << endl;
+				cout << "\t  \"CÃ³mo jugar\" se marcarÃ¡ esa casilla con  dos  X, denotando que el jugador  perdiÃ³  la" << endl;
 				cout << "\t  misma." << endl;
 
-				cout << "\n\t  Por ejemplo: la resta (41 - 17) = 24 es correcta, por lo tanto,  se marcará el 24  en" << endl;
+				cout << "\n\t  Por ejemplo: la resta (41 - 17) = 24 es correcta, por lo tanto,  se marcarÃ¡ el 24  en" << endl;
 				cout << "\t  la casilla. Por otra parte, la resta  (41 - 17) = 23  es incorrecta, de modo  que  se" << endl;
-				cout << "\t  marcarán dos X en la casilla.\n" << endl;
+				cout << "\t  marcarÃ¡n dos X en la casilla.\n" << endl;
 							
 				cout << "       ___________________________________________________________________________________________\n\n\t";
 				system("pause");
@@ -1274,13 +1274,13 @@ void ayuda()
 				cout << "       ___________________________________________________________________________________________\n\n\n";
 		
 				color(6);
-				cout << "\t\t\t\t\t      = CÓMO GANAR =\n\n";
+				cout << "\t\t\t\t\t      = CÃ“MO GANAR =\n\n";
 				color(7);
 				
-				cout << "\n\t  Cuando un jugador inserte una respuesta correcta, se le  sumará  un  punto.  Gana  el" << endl;
-				cout << "\t  jugador que tenga más puntos al finalizar la partida. También se puede  ganar  si  el" << endl;
-				cout << "\t  contrincante no inserta un número en el lapso de 15 segundos. Si  los  dos  jugadores" << endl;
-				cout << "\t  tienen la misma cantidad de puntos al finalizar la partida, se declarará empate\n" << endl;
+				cout << "\n\t  Cuando un jugador inserte una respuesta correcta, se le  sumarÃ¡  un  punto.  Gana  el" << endl;
+				cout << "\t  jugador que tenga mÃ¡s puntos al finalizar la partida. TambiÃ©n se puede  ganar  si  el" << endl;
+				cout << "\t  contrincante no inserta un nÃºmero en el lapso de 15 segundos. Si  los  dos  jugadores" << endl;
+				cout << "\t  tienen la misma cantidad de puntos al finalizar la partida, se declararÃ¡ empate\n" << endl;
 					
 				cout << "       ___________________________________________________________________________________________\n\n\t";
 				system("pause");
@@ -1291,15 +1291,15 @@ void ayuda()
 				cout << "       ___________________________________________________________________________________________\n\n\n";
 				
 				color(6);
-				cout << "\t\t\t\t      = YA NO TENGO MÁS COMBINACIONES =\n\n";
+				cout << "\t\t\t\t      = YA NO TENGO MÃS COMBINACIONES =\n\n";
 				color(7);
 
-				cout << "\n\t  Si ya no es posible realizar movimientos, se terminará  la  partida  y  se  declarará" << endl;
-				cout << "\t  ganador al jugador que tenga más puntos." << endl;
+				cout << "\n\t  Si ya no es posible realizar movimientos, se terminarÃ¡  la  partida  y  se  declararÃ¡" << endl;
+				cout << "\t  ganador al jugador que tenga mÃ¡s puntos." << endl;
 
-				cout << "\n\t  Por ejemplo: si el tablero marca los números  8  y  2,  el  primer  jugador  escogerá" << endl;
-				cout << "\t  (8 - 2) = 6, y el siguiente (6 - 2) = 4, acabando  así las  posibilidades  u opciones" << endl;
-				cout << "\t  de un nuevo número.\n" << endl;
+				cout << "\n\t  Por ejemplo: si el tablero marca los nÃºmeros  8  y  2,  el  primer  jugador  escogerÃ¡" << endl;
+				cout << "\t  (8 - 2) = 6, y el siguiente (6 - 2) = 4, acabando  asÃ­ las  posibilidades  u opciones" << endl;
+				cout << "\t  de un nuevo nÃºmero.\n" << endl;
 							
 				cout << "       ___________________________________________________________________________________________\n\n\t";
 				system("pause");
@@ -1310,11 +1310,11 @@ void ayuda()
 				cout << "       ___________________________________________________________________________________________\n\n\n";
 				
 				color(6);
-				cout << "\t\t\t\t          = CÓMO CULMINO EL JUEGO =\n\n";
+				cout << "\t\t\t\t          = CÃ“MO CULMINO EL JUEGO =\n\n";
 				color(7);
 				
 				cout << "\n\t  El  juego  puede  terminar  cuando: se  llene  la  tabla,  ya  no  hayan  movimientos" << endl;
-				cout << "\t  disponibles, pasen 15 minutos o un jugador no inserte un número en  su  lapso  de  15" << endl;
+				cout << "\t  disponibles, pasen 15 minutos o un jugador no inserte un nÃºmero en  su  lapso  de  15" << endl;
 				cout << "\t  segundos.\n" << endl;
 				
 				cout << "       ___________________________________________________________________________________________\n\n\t";
@@ -1330,7 +1330,7 @@ void ayuda()
 				color(7);
 				
 				cout << "\n\t  Se recomienda estudiar y analizar las tablas de partidas ya  terminadas para  generar" << endl;
-				cout << "\t  nuevas estrategias de juego, así como analizar  todas  las  combinaciones  de  restas" << endl;
+				cout << "\t  nuevas estrategias de juego, asÃ­ como analizar  todas  las  combinaciones  de  restas" << endl;
 				cout << "\t  posibles.\n" << endl;
 				
 				cout << "       ___________________________________________________________________________________________\n\n\t";
@@ -1343,7 +1343,7 @@ void ayuda()
 	
 	        default:
 	            system("cls");
-	            cout << "\n\t\t\t\t     -Opción Incorrecta - Intente Nuevamente-\n\n\t";
+	            cout << "\n\t\t\t\t     -OpciÃ³n Incorrecta - Intente Nuevamente-\n\n\t";
 	            system("pause");
     	}
     	
@@ -1352,14 +1352,14 @@ void ayuda()
 }
 
 
-// Función color
+// FunciÃ³n color
 void color(int n)
 {
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), n);
 }
 
 
-// Función gotoxy
+// FunciÃ³n gotoxy
 void gotoxy(int X, int Y)
 {
     HANDLE hcon = GetStdHandle(STD_OUTPUT_HANDLE);
